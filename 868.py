@@ -35,6 +35,7 @@ def posibles_movimientos(ultimo, x, y, visitados):
 
 def backtracking(ultimo, x, y, max, visitados=[]):
     global RESULTADOS
+    #Si llegue al final y el resultado actual no está en la lista de resultados
     if x == ULTIMA_FILA and (INICIO[0], INICIO[1], x, y) not in RESULTADOS:
         RESULTADOS.append((INICIO[0], INICIO[1], x, y))
         return
