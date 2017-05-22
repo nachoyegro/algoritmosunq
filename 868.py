@@ -77,6 +77,7 @@ if __name__ == "__main__":
                 backtracking(1, 1, i, 1) #ultimo, x, y, maximo
         minimo = ()
         for ix, iy, fx, fy in RESULTADOS:
+            #Seteo el primero
             if not minimo:
                 minimo = (ix, iy, fx, fy)
             else:
