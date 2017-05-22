@@ -13,29 +13,30 @@ def read_line():
         line = next(sys.stdin).strip()
     return line
 
-def backtracking(n, acumulado):
+def backtracking(acumulado, n):
     global BILLETES, USADOS, PRECIO
     if acumulado >= PRECIO:
         #Como tengo que minimizar el vuelto dado, y la cantidad de BILLETES
         #Lo retorno como un par, de lo que sobra para el vendedor y la cantidad de billetes que use
-        return (USADOS, acumulado)
+        return (acumulado, USADOS)
     #Si ya use todos los billetes y no llegué, retorno cualquier cosa
     if n == len(BILLETES):
         #Retorno 10.001 porque el precio no puede superar 10.000, entonces funciona como INF
-        return (len(BILLETES) + 1, 10001)
+        return (10001,len(BILLETES) + 1)
     #Si usando el billete actual me paso, entonces descarto
-    if (n+1, acumulado+BILLETES[n]) in CACHE:
-        usarlo = CACHE[(n+1, acumulado + BILLETES[n])]
+    acumulado_usado = acumulado+BILLETES[n]
+    if acumulado_usado in CACHE[n+1]:
+        usarlo = CACHE[n+1][acumulado_usado]
     else:
         USADOS += 1
-        usarlo = backtracking(n+1, acumulado+BILLETES[n])
+        usarlo = backtracking(acumulado_usado, n+1)
         USADOS -= 1
-        CACHE[(n+1, acumulado+BILLETES[n])] = usarlo
-    if (n+1, acumulado) in CACHE:
-        no_usarlo = CACHE[(n+1, acumulado)]
+        CACHE[n+1] = {acumulado_usado: usarlo}
+    if acumulado in CACHE[n+1]:
+        no_usarlo = CACHE[n+1][acumulado]
     else:
-        no_usarlo = backtracking(n+1, acumulado)
-        CACHE[(n+1, acumulado)] = no_usarlo
+        no_usarlo = backtracking(acumulado, n+1)
+        CACHE[n+1] = {acumulado: no_usarlo}
     return min(usarlo, no_usarlo)
 
 if __name__ == "__main__":
@@ -45,11 +46,11 @@ if __name__ == "__main__":
     for i in range(0, tests):
         PRECIO = int(read_line())
         billetes = int(read_line())
-        for i in range(0, billetes):
+        for i in range(1, billetes+1):
             actual = int(read_line())
             BILLETES.append(actual)
+            CACHE[i] = {}
         resultado = backtracking(0, 0)
-        print(CACHE)
         print(resultado[0], resultado[1])
         CACHE = {}
         BILLETES = []
