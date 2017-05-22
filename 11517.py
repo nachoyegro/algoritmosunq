@@ -24,7 +24,16 @@ def backtracking(acumulado, n):
         #Retorno 10.001 porque el precio no puede superar 10.000, entonces funciona como INF
         return (10001,len(BILLETES) + 1)
     #Si usando el billete actual me paso, entonces descarto
-    acumulado_usado = acumulado+BILLETES[n]
+    if acumulado not in CACHE[n+1].keys():
+        acumulado_usado = acumulado+BILLETES[n]
+        USADOS += 1
+        usarlo = backtracking(acumulado_usado, n+1)
+        USADOS -= 1
+        no_usarlo = backtracking(acumulado, n+1)
+        CACHE[n+1] = {acumulado: min(usarlo, no_usarlo)}
+    return CACHE[n+1][acumulado]
+
+    """
     if acumulado_usado in CACHE[n+1]:
         usarlo = CACHE[n+1][acumulado_usado]
     else:
@@ -37,7 +46,8 @@ def backtracking(acumulado, n):
     else:
         no_usarlo = backtracking(acumulado, n+1)
         CACHE[n+1] = {acumulado: no_usarlo}
-    return min(usarlo, no_usarlo)
+        return min(usarlo, no_usarlo)
+    """
 
 if __name__ == "__main__":
     tests = int(read_line())
