@@ -4,6 +4,8 @@ BILLETES = []
 USADOS = 0
 PRECIO = 0
 CACHE = {}
+NOT_INIT = -1
+INF = 10001
 
 def read_line():
     line = next(sys.stdin).strip()
@@ -12,6 +14,9 @@ def read_line():
     while(len(line) == 0):
         line = next(sys.stdin).strip()
     return line
+
+def crear_matriz(billetes):
+    return [[NOT_INIT for x in range(billetes+2)] for y in range(INF+1)]
 
 def backtracking(acumulado, n):
     global BILLETES, USADOS, PRECIO
@@ -22,22 +27,15 @@ def backtracking(acumulado, n):
     #Si ya use todos los billetes y no llegué, retorno cualquier cosa
     if n == len(BILLETES):
         #Retorno 10.001 porque el precio no puede superar 10.000, entonces funciona como INF
-        return (10001,len(BILLETES) + 1)
-    #Si usando el billete actual me paso, entonces descarto
-    acumulado_usado = acumulado+BILLETES[n]
-    if acumulado_usado in CACHE[n+1]:
-        usarlo = CACHE[n+1][acumulado_usado]
-    else:
+        return (INF,len(BILLETES) + 1)
+    if CACHE[acumulado][n] == NOT_INIT:
+        acumulado_usado = acumulado+BILLETES[n]
         USADOS += 1
         usarlo = backtracking(acumulado_usado, n+1)
         USADOS -= 1
-        CACHE[n+1] = {acumulado_usado: usarlo}
-    if acumulado in CACHE[n+1]:
-        no_usarlo = CACHE[n+1][acumulado]
-    else:
         no_usarlo = backtracking(acumulado, n+1)
-        CACHE[n+1] = {acumulado: no_usarlo}
-    return min(usarlo, no_usarlo)
+        CACHE[acumulado][n] = min(usarlo, no_usarlo)
+    return CACHE[acumulado][n]
 
 if __name__ == "__main__":
     tests = int(read_line())
@@ -46,10 +44,10 @@ if __name__ == "__main__":
     for i in range(0, tests):
         PRECIO = int(read_line())
         billetes = int(read_line())
-        for i in range(1, billetes+1):
+        for i in range(0, billetes):
             actual = int(read_line())
             BILLETES.append(actual)
-            CACHE[i] = {}
+        CACHE = crear_matriz(billetes)
         resultado = backtracking(0, 0)
         print(resultado[0], resultado[1])
         CACHE = {}
