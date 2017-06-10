@@ -53,6 +53,6 @@ if __name__ == "__main__":
                 case = "\n"
             else:
                 case = ""
-            result = case.join([result, " ".join([str(cant)] + not_visited)])
+            print(case.join([result, " ".join([str(cant)] + not_visited)]))
         nodes = read_line()
-    print(result)
+    #print(result)
