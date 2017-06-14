@@ -1,3 +1,4 @@
+
 import sys
 PRODUCTOS = []
 PERSONAS = []
@@ -15,11 +16,8 @@ def crear_cache(billetes):
     return [[0 for i in range(31)] for y in range(len(PRODUCTOS))]
 
 def backtracking(num, restante):
-    if num == len(PRODUCTOS):
+    if restante < 0 or num == len(PRODUCTOS):
         #Si ya termine de recorrer los productos, termino.
-        return 0
-    if restante < 0:
-        #Si ya me pase con el peso, recorto.
         return 0
     if CACHE[num][restante] == 0:
         restante_nuevo = restante-weight(num)
@@ -55,6 +53,5 @@ if __name__ == "__main__":
         for peso in PERSONAS:
             total += backtracking(0, peso)
         print(total)
-        print(CACHE)
         PERSONAS = []
         PRODUCTOS = []
