@@ -12,7 +12,7 @@ def read_line():
     return line
 
 def crear_cache(billetes):
-    return [[0 for i in range(31)] for y in range(len(PRODUCTOS))]
+    return [[-1 for i in range(31)] for y in range(len(PRODUCTOS))]
 
 def backtracking(num, restante):
     if num == len(PRODUCTOS):
@@ -21,14 +21,13 @@ def backtracking(num, restante):
     if restante < 0:
         #Si ya me pase con el peso, recorto.
         return 0
-    if CACHE[num][restante] == 0:
+    if CACHE[num][restante] == -1:
         restante_nuevo = restante-weight(num)
-        if restante_nuevo >= 0:
-            ponerlo = backtracking(num+1, restante_nuevo) + price(num)
-        else:
-            ponerlo = 0
+        ponerlo = backtracking(num+1, restante_nuevo) + price(num)
         no_ponerlo = backtracking(num+1, restante)
         CACHE[num][restante] = max(ponerlo, no_ponerlo)
+    #num = numero de producto
+    #peso
     return CACHE[num][restante]
 
 def weight(n):
