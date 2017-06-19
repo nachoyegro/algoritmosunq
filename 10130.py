@@ -13,8 +13,9 @@ def read_line():
         line = next(sys.stdin).strip()
     return line
 
-def crear_cache(pesos):
-    return [[-1 for i in range(sum([p for p in pesos])+1)] for i in range(1000)]
+def crear_cache():
+    #CACHE[num][restante]
+    return [[-1 for i in range(31)] for y in range(len(PRODUCTOS))]
 
 def backtracking(num, restante):
     if restante < 0:
@@ -50,7 +51,7 @@ if __name__ == "__main__":
             persona = int(read_line())
             PERSONAS.append(persona)
         total = 0
-        CACHE = crear_cache(PERSONAS)
+        CACHE = crear_cache()
         for peso in PERSONAS:
             total += backtracking(0, peso)
         print(total)
