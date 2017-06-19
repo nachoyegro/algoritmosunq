@@ -3,6 +3,7 @@ import sys
 PRODUCTOS = []
 PERSONAS = []
 CACHE = []
+INF = 10001
 
 def read_line():
     line = next(sys.stdin).strip()
@@ -12,19 +13,19 @@ def read_line():
         line = next(sys.stdin).strip()
     return line
 
-def crear_cache(billetes):
-    return [[0 for i in range(31)] for y in range(len(PRODUCTOS))]
+def crear_cache(pesos):
+    return [[-1 for i in range(sum([p for p in pesos])+1)] for i in range(1000)]
 
 def backtracking(num, restante):
-    if restante < 0 or num == len(PRODUCTOS):
-        #Si ya termine de recorrer los productos, termino.
+    if restante < 0:
+        return -INF
+    if num == len(PRODUCTOS):
         return 0
-    if CACHE[num][restante] == 0:
+    if restante == 0:
+        return 0
+    if CACHE[num][restante] == -1:
         restante_nuevo = restante-weight(num)
-        if restante_nuevo >= 0:
-            ponerlo = backtracking(num+1, restante_nuevo) + price(num)
-        else:
-            ponerlo = 0
+        ponerlo = backtracking(num+1, restante_nuevo) + price(num)
         no_ponerlo = backtracking(num+1, restante)
         CACHE[num][restante] = max(ponerlo, no_ponerlo)
     return CACHE[num][restante]
