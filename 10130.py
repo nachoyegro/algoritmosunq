@@ -6,12 +6,7 @@ CACHE = []
 INF = 10001
 
 def read_line():
-    line = next(sys.stdin).strip()
-    if not line:
-        return ""
-    while(len(line) == 0):
-        line = next(sys.stdin).strip()
-    return line
+    return next(sys.stdin).strip()
 
 def crear_cache():
     #CACHE[num][restante]
