@@ -27,6 +27,10 @@ def dfs(start):
     if r > MAX[1] or (r == MAX[1] and start < MAX[0]):
         MAX = (start, r)
 
+    #TODO Ir dejando timestamp hasta encontrar un ciclo, ahi marco en todo el ciclo el numero de distancia
+    #Una vez marcado todo el ciclo, voy volviendo hacia atras poniendo la distancia de mi vecino + 1
+    #Despues vuelvo a hacer DFS en un nodo no marcado
+
 if __name__ == "__main__":
     result = ""
     tests = int(read_line())
@@ -36,12 +40,15 @@ if __name__ == "__main__":
         nodes = []
         #Genero la matriz
         cant = edges
-        GRAPH = GRAPH = [[] for _ in range(cant+1)]
+        GRAPH = [[] for _ in range(cant+1)]
         for _ in range(edges):
+            #Traigo la proxima arista
             x, y = map(int, read_line().split())
+            #La agrego a la lista de nodos
             nodes.append(x)
             GRAPH[x].append(y)
         for node in nodes:
+            #Genero un array con 0, de largo cant+1
             VISITED = [0] * (cant + 1)
             dfs(node)
         print("Case %d: %d" % (i+1, MAX[0]))

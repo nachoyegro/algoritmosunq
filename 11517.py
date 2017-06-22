@@ -6,36 +6,34 @@ PRECIO = 0
 CACHE = {}
 NOT_INIT = -1
 INF = 10001
+MIN = (INF, INF)
 
 def read_line():
-    line = next(sys.stdin).strip()
-    if not line:
-        return ""
-    while(len(line) == 0):
-        line = next(sys.stdin).strip()
-    return line
+    return next(sys.stdin).strip()
 
 def crear_matriz(billetes):
-    return [[NOT_INIT for x in range(billetes+2)] for y in range(INF+1)]
+    return [[NOT_INIT for _ in range(PRECIO+1)] for _ in range(billetes+1)]
 
-def backtracking(acumulado, n):
-    global BILLETES, USADOS, PRECIO
+def backtracking(acumulado, num):
+    global BILLETES, USADOS, PRECIO, MIN
     if acumulado >= PRECIO:
         #Como tengo que minimizar el vuelto dado, y la cantidad de BILLETES
         #Lo retorno como un par, de lo que sobra para el vendedor y la cantidad de billetes que use
         return (acumulado, USADOS)
     #Si ya use todos los billetes y no llegué, retorno cualquier cosa
-    if n == len(BILLETES):
+    if num == len(BILLETES):
         #Retorno 10.001 porque el precio no puede superar 10.000, entonces funciona como INF
         return (INF,len(BILLETES) + 1)
-    if CACHE[acumulado][n] == NOT_INIT:
-        acumulado_usado = acumulado+BILLETES[n]
+    #TODO El problema aca es que en algun momento se guarda como mejor uno que no es tan bueno como el actual,
+    # entonces ni lo considera
+    if CACHE[num][acumulado] == NOT_INIT:
+        acumulado_usado = acumulado+BILLETES[num]
+        no_usarlo = backtracking(acumulado, num+1)
         USADOS += 1
-        usarlo = backtracking(acumulado_usado, n+1)
+        usarlo = backtracking(acumulado_usado, num+1)
         USADOS -= 1
-        no_usarlo = backtracking(acumulado, n+1)
-        CACHE[acumulado][n] = min(usarlo, no_usarlo)
-    return CACHE[acumulado][n]
+        CACHE[num][acumulado] = min(usarlo, no_usarlo)
+    return CACHE[num][acumulado]
 
 if __name__ == "__main__":
     tests = int(read_line())

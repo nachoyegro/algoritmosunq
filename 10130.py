@@ -3,30 +3,31 @@ import sys
 PRODUCTOS = []
 PERSONAS = []
 CACHE = []
+INF = -10001
 
 def read_line():
-    line = next(sys.stdin).strip()
-    if not line:
-        return ""
-    while(len(line) == 0):
-        line = next(sys.stdin).strip()
-    return line
+    return next(sys.stdin).strip()
 
 def crear_cache():
     #CACHE[num][restante]
-    return [[-1 for i in range(31)] for y in range(len(PRODUCTOS))]
+    return [[-1 for i in range(31)] for _ in range(len(PRODUCTOS)+1)]
 
 def backtracking(num, restante):
-    if restante < 0 or num == len(PRODUCTOS):
-        #Si ya termine de recorrer los productos, termino.
+    if restante < 0:
+        #Si me paso, retorno INF
+        return INF
+    if num == len(PRODUCTOS):
+        #Si llego al final, corto
         return 0
+    #Si el par num, restante todavia no lo procese
     if CACHE[num][restante] == -1:
+        #Resto el peso actual
         restante_nuevo = restante-weight(num)
-        if restante_nuevo >= 0:
-            ponerlo = backtracking(num+1, restante_nuevo) + price(num)
-        else:
-            ponerlo = 0
+        #Hago backtracking con el peso restado, y sumo el precio actual al resultado
+        ponerlo = backtracking(num+1, restante_nuevo) + price(num)
+        #Hago backtracking sin tener en cuenta el actual
         no_ponerlo = backtracking(num+1, restante)
+        #Guardo el maximo de ambos en la cache
         CACHE[num][restante] = max(ponerlo, no_ponerlo)
     return CACHE[num][restante]
 
