@@ -5,14 +5,13 @@ USADOS = 0
 PRECIO = 0
 CACHE = {}
 NOT_INIT = -1
-INF = 10001
-MIN = (INF, INF)
+INF = 1e7
 
 def read_line():
     return next(sys.stdin).strip()
 
 def crear_matriz(billetes):
-    return [[NOT_INIT for _ in range(PRECIO+1)] for _ in range(billetes+1)]
+    return [[NOT_INIT] * (PRECIO+1)] * (billetes+1)
 
 def backtracking(acumulado, num):
     global BILLETES, USADOS, PRECIO, MIN
