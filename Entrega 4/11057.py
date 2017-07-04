@@ -14,6 +14,10 @@ def read_line():
         return None
 
 def libros(m, n):
+    """
+        Complejidad: O(n log n), ya que primero ordeno la lista y despues
+        voy partiendo la lista a la mitad
+    """
     #Ordeno e inicializo
     L.sort()
     i = 0

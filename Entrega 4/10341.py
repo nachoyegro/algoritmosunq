@@ -8,26 +8,37 @@ def read_line():
     return line
 
 def fun(x):
+    #Escribo la funcion
     return P * exp(-1.0 * x) + Q * sin(x) + R * cos(x) +\
         S * tan(x) + T * x ** 2 + U
 
 def biseccion():
+    """
+        Complejidad: O(log n), ya que voy siempre partiendo por la mitad los
+        valores posibles, que seria el n
+    """
     if fun(1) * fun(0) > 0:
         return 'No solution'
     epi = 1E-7
     if fun(1.0) > fun(0.0):
-        high, low = 1.0, 0.0
+        mayor = 1.0
+        menor = 0.0
     else:
-        high, low = 0.0, 1.0
+        mayor = 0.0
+        menor = 1.0
 
-    while abs(high - low) > epi:
-        mid = (low + high) / 2.0
-        f = fun(mid)
+    #Mientras sean distintos
+    while abs(mayor - menor) > epi:
+        #Busco el medio
+        medio = (mayor + menor) / 2.0
+        f = fun(medio)
+        #Si el resultado es mayor a 0, el medio es el mayor
         if f > 0:
-            high = mid
+            mayor = medio
         elif f < 0:
-            low = mid
-    return '%.4f' % mid
+            #Sino, el medio es el menor
+            menor = medio
+    return '%.4f' % medio
 
 if __name__ == "__main__":
     while True:
