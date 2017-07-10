@@ -2,6 +2,11 @@ import sys
 GRAPH = []
 VISITED = []
 
+"""
+    Complejidad: Como hago dfs desde cada nodo pudiendo recorrer todos los nodos
+        en cada pasada, la complejidad es O(n^2)
+"""
+
 def read_line():
     return next(sys.stdin).strip()
 

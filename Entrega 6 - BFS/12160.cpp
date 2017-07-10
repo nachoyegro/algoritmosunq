@@ -7,11 +7,14 @@ using namespace std;
 int L, R, U, RVs[10000], c=1;
 int dist[10000];
 queue<int> q;
-
+/*
+  Complejidad: Como recorro todos los nodos solo una vez, la complejidad es O(n+m)
+*/
 
 int bfs() {
     //Inicializo
     q = queue<int>();
+    //Inicializo con -1
     memset(dist, -1, sizeof dist);
     dist[L] = 0;
     q.push(L);
@@ -22,8 +25,11 @@ int bfs() {
         for(int i=0; i<R; i++){
             //Solo tengo en cuenta los 4 digitos mas significativos
             int v = (u + RVs[i]) % 10000;
+            //Si no fue procesado
             if (dist[v] == -1) {
+                //Proceso
                 dist[v] = dist[u] + 1;
+                //Si llegue al codigo de desbloqueo, retorno
                 if (v == U) return dist[v];
                 q.push(v);
             }
@@ -40,8 +46,8 @@ int main() {
         }
 
         printf("Case %d: ", c++);
-        int val = bfs();
-        if (val == -1) printf("Permanently Locked\n");
-        else printf("%d\n", val);
+        int resultado = bfs();
+        if (resultado == -1) printf("Permanently Locked\n");
+        else printf("%d\n", resultado);
     }
 }

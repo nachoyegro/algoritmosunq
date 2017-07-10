@@ -7,6 +7,13 @@ int T, N, a, b;
 vector<int> graph, sum;
 vector<bool> vis;
 
+/*
+
+  Complejidad: Por cada nodo hago dfs, pudiendo recorrer todos los nodos cada vez,
+          haciendo que la complejidad sea O(n^2)
+
+*/
+
 int dfs(int u) {
     //Seteo como visitado el actual
     vis[u] = true;
@@ -41,7 +48,9 @@ int main() {
         //Recorro los nodos
         for(int i = 0; i < N; i++) {
             //Si el nodo actual no tiene un valor asignado, hago dfs
-            if(sum[i] == -1) dfs(i);
+            if(sum[i] == -1){
+              dfs(i);
+            }
             //Si el valor del nodo actual es mayor al mejor
             if(sum[i] > best_len) {
                 //Seteo el valor del nodo actual como mejor
