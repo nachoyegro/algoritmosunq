@@ -59,7 +59,6 @@ int dijkstra(){
   while(!pq.empty()){
     P p = pq.top();  pq.pop();
     int v = p.second;
-//    printf("%d\n", v);
     if(v == m)  return p.first;
     if(d[v] < p.first)  continue;
     for(int i = 0; i < 100; ++i){

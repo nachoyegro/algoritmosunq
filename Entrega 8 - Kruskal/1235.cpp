@@ -11,6 +11,10 @@ typedef vector <int> vi;
 vector <pair<int ,ii> > edges;
 vi set;
 
+/*
+    Complejidad:
+*/
+
 void inicializar(int N){
     //Inicializo el set
     set.assign(N,0);
@@ -29,7 +33,7 @@ int find(int i){
 
 }
 
-bool mismoset(int i,int j){
+bool conectados(int i,int j){
     //True si i y j comparten el mismo set
     return find(i)==find(j);
 }
@@ -78,7 +82,7 @@ int main(){
         sort(edges.begin(),edges.end());
 
         for(int i=0;i<edges.size();i++){
-            if(!mismoset(edges[i].second.first,edges[i].second.second)){
+            if(!conectados(edges[i].second.first,edges[i].second.second)){
                 sum+=edges[i].first;
                 unite(edges[i].second.first,edges[i].second.second);
             }
