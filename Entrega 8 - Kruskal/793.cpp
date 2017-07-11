@@ -7,7 +7,7 @@ int sz[MAXN];    // sz[i] = numero de elementos en el subarbol con raiz en i
 int componentes;   // numero de componentes
 
 /*
-  Complejidad:
+  Complejidad: inicializar me lleva O(n),
 */
 
 // Creo una estructura de UnionFind con N sets independientes
@@ -42,47 +42,47 @@ void unite(int i, int j) {
 
 
 int main(){
-  int n,a,b,test,exito,falla;
-  char tipo,buffer[100];
-  scanf("%d",&test);
-  while(test--){
-    scanf("%d",&n);
-    getchar();
-    //Inicializo
-    inicializar(n);
-    exito=0;
-    falla=0;
-    buffer[0]='1';
-    while (gets(buffer)) {
-      if(buffer[0]==NULL){
-          break;
-      }
-      //Leo el input
-      sscanf(buffer,"%c %d %d",&tipo,&a,&b);
-      a--;
-      b--;
-      // Si estan interconectadas
-      if(tipo=='c'){
-          //Hago la union de a con b
-          unite(a, b);
-      }
-      else{
-          // Si es una pregunta, chequeo si pertenecen al mismo conjunto
-          if(conectados(a, b)){
-              //Incremento el contador de exito
-              exito++;
+    int n,a,b,test,exito,falla;
+    char tipo,buffer[100];
+    scanf("%d",&test);
+    while(test--){
+      scanf("%d",&n);
+      getchar();
+      //Inicializo
+      inicializar(n);
+      exito=0;
+      falla=0;
+      buffer[0]='1';
+      while (gets(buffer)) {
+        if(buffer[0]==NULL){
+            break;
+        }
+        //Leo el input
+        sscanf(buffer,"%c %d %d",&tipo,&a,&b);
+        a--;
+        b--;
+        // Si estan interconectadas
+        if(tipo=='c'){
+            //Hago la union de a con b
+            unite(a, b);
+        }
+        else{
+            // Si es una pregunta, chequeo si pertenecen al mismo conjunto
+            if(conectados(a, b)){
+                //Incremento el contador de exito
+                exito++;
+            }
+            else{
+                //Incremento el contador de falla
+                falla++;
+            }
           }
-          else{
-              //Incremento el contador de falla
-              falla++;
-          }
       }
-    }
-    //Printeo la cantidad de exitos y de fallas que hubo
-    printf("%d,%d\n",exito,falla);
-    if(test!=0){
-      printf("\n");
-    }
+      //Printeo la cantidad de exitos y de fallas que hubo
+      printf("%d,%d\n",exito,falla);
+      if(test!=0){
+        printf("\n");
+      }
   }
   return 0;
 }
