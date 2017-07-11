@@ -20,9 +20,11 @@ int G[maxn][maxn];
 int v[maxn];
 int d[maxn];
 
-int calc(const string &s){
+int calcular(const string &s){
     int ans = 0;
-    for(int i = 0; i < s.size(); ++i)  ans = ans * 10 + s[i] - '0';
+    for(int i = 0; i < s.size(); ++i){
+        ans = ans * 10 + s[i] - '0';
+    }
     return ans;
 }
 
@@ -59,7 +61,7 @@ int main(){
             stringstream ss(line);
             string s;
             vector<int> vv;
-            while(ss >> s)  vv.push_back(calc(s));
+            while(ss >> s)  vv.push_back(calcular(s));
             sort(vv.begin(), vv.end());
             for(int j = 0; j < vv.size(); ++j)
                 for(int k = j+1; k < vv.size(); ++k)
