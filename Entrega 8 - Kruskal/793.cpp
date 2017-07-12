@@ -7,7 +7,10 @@ int sz[MAXN];    // sz[i] = numero de elementos en el subarbol con raiz en i
 int componentes;   // numero de componentes
 
 /*
-  Complejidad: inicializar me lleva O(n),
+  Complejidad: inicializar me lleva O(n), las operaciones de union-find me llevan O(log n).
+               Como no tiene otra complejidad mas que unir conjuntos y chequear en determinado momento
+               si dos nodos pertenecen al mismo conjunto (mas algunas operaciones O(1) como incrementar y decrementar variables),
+               tiene complejidad O(n) + O(log n) = O(log n)
 */
 
 // Creo una estructura de UnionFind con N sets independientes
@@ -42,6 +45,11 @@ void unite(int i, int j) {
 
 
 int main(){
+    /*
+      n: cantidad de computadoras en la red
+      a: compuradora-i
+      b: computadora-j
+    */
     int n,a,b,test,exito,falla;
     char tipo,buffer[100];
     scanf("%d",&test);

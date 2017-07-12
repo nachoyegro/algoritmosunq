@@ -34,7 +34,7 @@ int find(int i){
 
 }
 
-bool conectados(int i,int j){f
+bool conectados(int i,int j){
     //Verdadero si i y j comparten el mismo set
     return find(i)==find(j);
 }
