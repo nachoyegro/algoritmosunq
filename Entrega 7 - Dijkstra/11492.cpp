@@ -20,11 +20,11 @@ typedef pair<largo_letra, int> ici;
   Complejidad:
 */
 
-int dijkstra(grafo &g, int start_lang, int end_lang) {
+int dijkstra(grafo &g, int inicio, int fin) {
 
     priority_queue<ici> pq;
     //Pusheo el inicio
-    pq.push(make_pair(make_pair(0, 'A'), start_lang));
+    pq.push(make_pair(make_pair(0, 'A'), inicio));
 
     while (!pq.empty()) {
         //Traigo el proximo de la cola de prioridad
@@ -32,7 +32,7 @@ int dijkstra(grafo &g, int start_lang, int end_lang) {
         pq.pop();
 
         //Si ya llegue al ultimo lenguaje, retorno el largo total
-        if (p.second == end_lang){
+        if (p.second == fin){
           return -p.first.first;
         }
 
@@ -80,8 +80,8 @@ int main() {
         getline(cin, line);
         ss.clear();
         ss.str(line);
-        string start_lang, end_lang;
-        ss >> start_lang >> end_lang;
+        string inicio, fin;
+        ss >> inicio >> fin;
 
         for (int i = 0; i < n; ++i) {
 
@@ -105,10 +105,10 @@ int main() {
             graph[m[b]].push_back(make_pair(m[a], make_pair(w,false)));
         }
         //TODO
-        if (m.find(start_lang) == m.end() or m.find(end_lang) == m.end()) {
+        if (m.find(inicio) == m.end() or m.find(fin) == m.end()) {
             cout << "impossivel" << endl;
         } else {
-            int cost = dijkstra(graph, m[start_lang], m[end_lang]);
+            int cost = dijkstra(graph, m[inicio], m[fin]);
             if(cost < 0) cout << "impossivel" << endl;
             else cout << cost << endl;
         }

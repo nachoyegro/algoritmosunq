@@ -92,9 +92,8 @@ int main(){
             //Genero el grafo
             for(int j = 0; j < vv.size(); ++j){
                 for(int l = j+1; l < vv.size(); ++l){
-                    tiempo_minimo = min(G[vv[j]][vv[l]], (vv[l]-vv[j]) * tiempos[i]);
-                    G[vv[j]][vv[l]] = tiempo_minimo;
-                    G[vv[l]][vv[j]] = tiempo_minimo;
+                    G[vv[j]][vv[l]] = min(G[vv[j]][vv[l]], (vv[l]-vv[j]) * tiempos[i]);
+                    G[vv[l]][vv[j]] = min(G[vv[j]][vv[l]], (vv[l]-vv[j]) * tiempos[i]);
                 }
             }
         }
