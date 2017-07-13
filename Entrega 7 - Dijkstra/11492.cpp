@@ -6,29 +6,45 @@
 
 using namespace std;
 
-int dijkstra(   vector< vector< pair<int, pair<string, bool> > > > &g,
-                int start_lang, int end_lang) {
+typedef pair<string, bool> letra_usada;
+typedef pair<int, letra_usada> leng_letra;
+typedef vector<leng_letra> ll;
+typedef vector<ll> grafo;
 
-    //priority_queue composed by <<total_lenght, last_letter>, language>
-    priority_queue< pair< pair<int, char>, int > > pq;
+//Par con largo total y ultima letra
+typedef pair<int, char> largo_letra;
+//Par con el par anterior y el lenguaje
+typedef pair<largo_letra, int> ici;
+
+/*
+  Complejidad:
+*/
+
+int dijkstra(grafo &g, int start_lang, int end_lang) {
+
+    priority_queue<ici> pq;
+    //Pusheo el inicio
     pq.push(make_pair(make_pair(0, 'A'), start_lang));
 
     while (!pq.empty()) {
-
-        pair< pair<int, char>, int > p = pq.top();
+        //Traigo el proximo de la cola de prioridad
+        ici p = pq.top();
         pq.pop();
 
-        if (p.second == end_lang) return -p.first.first;
+        //Si ya llegue al ultimo lenguaje, retorno el largo total
+        if (p.second == end_lang){
+          return -p.first.first;
+        }
 
         for (int i = 0; i < g[p.second].size(); ++i) {
 
-            //if !used(current_edge) and
-            // first_letter(current_edge) != last_letter
+            //si no fue usada la arista actual y
+            //la primer letra es diferente de la ultima
             if (   !g[p.second][i].second.second and
                     g[p.second][i].second.first[0] != p.first.second) {
 
-                //add this edge to the queue
-                //inverse length to let the queue sort the shortest first
+                //agrego la arista a la cola
+                //agrego el inverso del largo asi la cola ordena por el mas corto
                 pq.push(
                     make_pair(
                         make_pair(  -(-(p.first.first) +
@@ -36,7 +52,7 @@ int dijkstra(   vector< vector< pair<int, pair<string, bool> > > > &g,
                         g[p.second][i].second.first[0]),
                         g[p.second][i].first));
 
-                //mark the edge as used
+                //marco la arista como usada
                 g[p.second][i].second.second = true;
             }
         }
@@ -56,10 +72,9 @@ int main() {
     ss >> n;
     while (n) {
 
-        //map to get the corresponding index for each language
+        //hago un map que me da el indice para cada lenguaje
         map<string, int> m;
-        //graph: vector of connections <language , <word, used>>
-        vector< vector< pair<int, pair<string, bool> > > > graph;
+        grafo graph;
         int graph_index = 0;
 
         getline(cin, line);
@@ -79,18 +94,17 @@ int main() {
             if (m.find(a) == m.end()){
                 m[a] = graph_index;
                 graph_index++;
-                graph.push_back(vector< pair<int, pair<string, bool> > > ());
+                graph.push_back(ll ());
             }
             if (m.find(b) == m.end()){
                 m[b] = graph_index;
                 graph_index++;
-                graph.push_back(vector< pair<int, pair<string, bool> > > ());
+                graph.push_back(ll ());
             }
-
             graph[m[a]].push_back(make_pair(m[b], make_pair(w,false)));
             graph[m[b]].push_back(make_pair(m[a], make_pair(w,false)));
         }
-
+        //TODO
         if (m.find(start_lang) == m.end() or m.find(end_lang) == m.end()) {
             cout << "impossivel" << endl;
         } else {

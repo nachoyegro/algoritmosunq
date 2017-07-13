@@ -23,6 +23,10 @@ int G[maxn][maxn];
 int tiempos[maxn];
 int memo[maxn];
 
+/*
+  Complejidad:
+*/
+
 int calcular(const string &s){
     int ans = 0;
     for(int i = 0; i < s.size(); ++i){
